@@ -1,61 +1,492 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naud Tafesse | Full-Stack Developer</title>
+  <meta name="description" content="Naud Tafesse — Full-Stack Developer. React, Spring Boot, AWS, Docker, MongoDB. Projects, experience, and contact." />
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Naud T</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
-  </head>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <body>
+  <!-- Tailwind config (CDN-safe) -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["ui-sans-serif", "system-ui", "Inter", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"],
+          },
+          colors: {
+            ink: "#070A12",
+            panel: "rgba(255,255,255,0.06)",
+            line: "rgba(255,255,255,0.10)",
+            gold: "#D4AF37",
+            ice: "#7DD3FC",
+          },
+          boxShadow: {
+            glow: "0 0 0 1px rgba(255,255,255,0.10), 0 20px 60px rgba(0,0,0,0.55)",
+          }
+        }
+      }
+    };
+  </script>
 
-    <div class="container">
+  <style>
+    html { scroll-behavior: smooth; }
+    /* Subtle animated gradient grain */
+    .grain:before{
+      content:"";
+      position:absolute; inset:-200px;
+      background:
+        radial-gradient(closest-side, rgba(212,175,55,0.10), transparent 70%),
+        radial-gradient(closest-side, rgba(125,211,252,0.12), transparent 70%),
+        radial-gradient(closest-side, rgba(255,255,255,0.05), transparent 70%);
+      filter: blur(40px);
+      animation: float 12s ease-in-out infinite alternate;
+      z-index:-1;
+    }
+    @keyframes float {
+      from { transform: translate3d(-2%, -2%, 0) scale(1.02); }
+      to   { transform: translate3d(2%,  2%, 0) scale(1.06); }
+    }
+    /* Nice focus ring */
+    a, button { outline: none; }
+    a:focus-visible, button:focus-visible { box-shadow: 0 0 0 3px rgba(212,175,55,0.35); border-radius: 12px; }
+  </style>
+</head>
 
-      <header>
-        <div class="wrapper">
-          <h1>Naud Tafesse</h1>
-            <p class="bio"> Im a Virginia Tech student currently studying CS and learning about HTML
-            </p>
-          <div class="buttonBox">
-            <a class="myButton" href="#projects">Go</a>
+<body class="bg-ink text-white font-sans">
+  <!-- Background -->
+  <div class="grain relative overflow-hidden min-h-screen">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_55%)]"></div>
+
+    <!-- NAV -->
+    <header class="sticky top-0 z-50">
+      <nav class="backdrop-blur-xl bg-ink/55 border-b border-line">
+        <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+          <a href="#top" class="group flex items-center gap-3">
+            <span class="h-9 w-9 rounded-xl bg-white/5 border border-line grid place-items-center shadow-glow">
+              <span class="text-gold font-semibold">NT</span>
+            </span>
+            <div class="leading-tight">
+              <div class="font-semibold tracking-tight">Naud Tafesse</div>
+              <div class="text-xs text-white/60 -mt-0.5">Full-Stack • Cloud • Systems</div>
+            </div>
+          </a>
+
+          <div class="hidden md:flex items-center gap-6 text-sm text-white/70">
+            <a class="hover:text-white" href="#projects">Projects</a>
+            <a class="hover:text-white" href="#experience">Experience</a>
+            <a class="hover:text-white" href="#skills">Skills</a>
+            <a class="hover:text-white" href="#contact">Contact</a>
+            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-line hover:bg-white/10 text-white"
+               href="#contact">
+              <span class="h-2 w-2 rounded-full bg-gold"></span>
+              Available
+            </a>
+          </div>
+
+          <button id="menuBtn" class="md:hidden px-3 py-2 rounded-xl bg-white/5 border border-line">
+            <span class="text-sm">Menu</span>
+          </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="md:hidden hidden border-t border-line">
+          <div class="max-w-6xl mx-auto px-5 py-4 flex flex-col gap-3 text-white/80">
+            <a class="hover:text-white" href="#projects">Projects</a>
+            <a class="hover:text-white" href="#experience">Experience</a>
+            <a class="hover:text-white" href="#skills">Skills</a>
+            <a class="hover:text-white" href="#contact">Contact</a>
           </div>
         </div>
-      </header>
+      </nav>
+    </header>
 
-      <main id="projects">
-        <div class="project">
-          <img src="images/ethiopia.jpg" />
-          <h2>Ethiopia: Tapestry of Culture and Adventure</h2>
-          <p class="description"><a href="https://medium.com/@naudt21/ethiopia-tapestry-of-culture-and-adventure-8e9c71965838">The blog post</a>. In this blog post we will dive into the scene and flourishing tourism industry that make Ethiopia an absolute must visit.</p>            
+    <!-- HERO -->
+    <main id="top" class="max-w-6xl mx-auto px-5 pt-14 pb-10">
+      <section class="grid lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-line text-sm text-white/80">
+            <span class="h-2 w-2 rounded-full bg-ice"></span>
+            Building production-grade web systems + clean UX
+          </div>
+
+          <h1 class="mt-5 text-4xl md:text-6xl font-semibold tracking-tight">
+            Full-Stack Developer
+            <span class="block text-white/70">who ships fast, scalable products.</span>
+          </h1>
+
+          <p class="mt-5 text-white/70 text-lg leading-relaxed max-w-2xl">
+            React + Spring Boot + AWS (ECS/EC2/RDS/Route 53/CloudFront) + Docker.
+            I build end-to-end systems: APIs, auth, data, deployment, and the UI that makes it feel premium.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <!-- Put your PDF in repo root as /Naud_Tafesse_Resume.pdf -->
+            <a href="/Naud_Tafesse_Resume.pdf" target="_blank" rel="noreferrer"
+               class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-gold text-black font-medium hover:opacity-90 shadow-glow">
+              Download Resume
+              <span aria-hidden="true">↗</span>
+            </a>
+
+            <a href="https://github.com/naudt03" target="_blank" rel="noreferrer"
+               class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white/5 border border-line hover:bg-white/10 text-white">
+              GitHub
+              <span aria-hidden="true">↗</span>
+            </a>
+
+            <!-- Replace with your real LinkedIn -->
+            <a href="#" target="_blank" rel="noreferrer"
+               class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white/5 border border-line hover:bg-white/10 text-white">
+              LinkedIn
+              <span aria-hidden="true">↗</span>
+            </a>
+
+            <button id="copyEmailBtn"
+              class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white/5 border border-line hover:bg-white/10 text-white">
+              Copy Email
+            </button>
+          </div>
+
+          <div class="mt-8 grid sm:grid-cols-3 gap-4">
+            <div class="rounded-2xl bg-panel border border-line p-4 shadow-glow">
+              <div class="text-sm text-white/60">Location</div>
+              <div class="mt-1 font-medium">Springfield, VA</div>
+            </div>
+            <div class="rounded-2xl bg-panel border border-line p-4 shadow-glow">
+              <div class="text-sm text-white/60">Focus</div>
+              <div class="mt-1 font-medium">Cloud + Full-Stack</div>
+            </div>
+            <div class="rounded-2xl bg-panel border border-line p-4 shadow-glow">
+              <div class="text-sm text-white/60">Stack</div>
+              <div class="mt-1 font-medium">React • Java • AWS</div>
+            </div>
+          </div>
         </div>
-        <div class="project">
-          <img src="images/gaming.jpg" />
-          <h2>Royalty Free Background Music</h2>
-          <p class="description"> <a href="https://soundcloud.com/aadil-rana-177245610/cobracast">The podcast</a>. In this podcast The Cobra Homies sit and talk about gaming reviews and how they've effected the state of games and the perception of games of all genres</p>            
+
+        <!-- Right card -->
+        <aside class="lg:col-span-5">
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-sm text-white/60">Currently</div>
+                <div class="mt-1 text-xl font-semibold">Open to Software Roles</div>
+                <div class="mt-2 text-white/70">
+                  Full-stack, backend, or cloud-focused roles.
+                </div>
+              </div>
+              <div class="h-12 w-12 rounded-2xl bg-white/5 border border-line grid place-items-center">
+                <span class="text-gold text-xl">✦</span>
+              </div>
+            </div>
+
+            <div class="mt-6 border-t border-line pt-6">
+              <div class="text-sm text-white/60">Highlights</div>
+              <ul class="mt-3 space-y-2 text-white/75">
+                <li class="flex gap-2"><span class="text-gold">•</span> Deployed Dockerized apps to AWS ECS Fargate with load balancing + HTTPS.</li>
+                <li class="flex gap-2"><span class="text-gold">•</span> Built authenticated, scalable REST APIs with JWT session security.</li>
+                <li class="flex gap-2"><span class="text-gold">•</span> Data + visualization work: MongoDB, graphs, interactive exploration.</li>
+              </ul>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full bg-white/5 border border-line text-xs text-white/70">React</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 border border-line text-xs text-white/70">Spring Boot</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 border border-line text-xs text-white/70">Docker</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 border border-line text-xs text-white/70">AWS</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 border border-line text-xs text-white/70">MongoDB</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 border border-line text-xs text-white/70">C / Systems</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="mt-16 pt-10 border-t border-line">
+        <div class="flex items-end justify-between gap-6">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Featured Projects</h2>
+            <p class="mt-2 text-white/70">Real systems, real deployments, real UX.</p>
+          </div>
         </div>
-        <div class="project">
-          <img src="images/digital-detox.jpg" />
-          <h2>Digital Detox Journey</h2>
-          <p class="description">The link to <a href="https://youtu.be/WBvjUPs2tnc">my youtube video</a>. As I always find myself on my phone or on the internet quite often, I wanted to make a video talking about internet addiction and unnoticed negative effects</p>            
+
+        <div class="mt-8 grid md:grid-cols-2 gap-6">
+          <!-- Regal Abyssinia -->
+          <article class="rounded-3xl bg-panel border border-line p-6 shadow-glow hover:bg-white/10 transition">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="text-xl font-semibold">Regal Abyssinia Platform</h3>
+              <span class="text-xs px-3 py-1 rounded-full bg-gold/15 text-gold border border-gold/25">Production</span>
+            </div>
+            <p class="mt-3 text-white/70 leading-relaxed">
+              Full-stack restaurant platform: menu browsing, secure ordering, and customer reviews — built for scalability.
+            </p>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-gold">•</span> React frontend + Spring Boot backend with REST integration.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> MongoDB for dynamic menu, order history, and comments.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> Dockerized + deployed to AWS ECS Fargate; load balancers + HTTPS (SSL/TLS).</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> JWT authentication for secure sessions and transactions.</li>
+            </ul>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="chip">React</span><span class="chip">Spring Boot</span><span class="chip">MongoDB</span><span class="chip">Docker</span><span class="chip">AWS ECS</span><span class="chip">JWT</span>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a class="btnGhost" href="https://github.com/naudt03" target="_blank" rel="noreferrer">Code ↗</a>
+              <a class="btnGhost" href="#contact">Ask for Demo</a>
+            </div>
+          </article>
+
+          <!-- Crisis Crawler -->
+          <article class="rounded-3xl bg-panel border border-line p-6 shadow-glow hover:bg-white/10 transition">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="text-xl font-semibold">Crisis Events Web Crawler</h3>
+              <span class="text-xs px-3 py-1 rounded-full bg-ice/15 text-ice border border-ice/25">Data + Graphs</span>
+            </div>
+            <p class="mt-3 text-white/70 leading-relaxed">
+              Interactive app to train models, configure crawls, and analyze crisis content with graphs + URL exploration.
+            </p>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-ice">•</span> Frontend connected to a backend with advanced filtering (keyword + one-class classification).</li>
+              <li class="flex gap-2"><span class="text-ice">•</span> vis-network.js URL tree graphs with interactive node exploration.</li>
+              <li class="flex gap-2"><span class="text-ice">•</span> Dockerized for consistent deployment and fast setup.</li>
+            </ul>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="chip">Flask</span><span class="chip">React</span><span class="chip">MongoDB</span><span class="chip">Docker</span><span class="chip">Data Viz</span>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a class="btnGhost" href="https://github.com/naudt03" target="_blank" rel="noreferrer">Code ↗</a>
+              <a class="btnGhost" href="#contact">Ask for Demo</a>
+            </div>
+          </article>
+
+          <!-- Vacation Plan Assistant -->
+          <article class="rounded-3xl bg-panel border border-line p-6 shadow-glow hover:bg-white/10 transition">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="text-xl font-semibold">Vacation Plan Assistant</h3>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/10 text-white/80 border border-line">Enterprise</span>
+            </div>
+            <p class="mt-3 text-white/70 leading-relaxed">
+              Cloud-based travel planning app with flight comparison, reviews, and weather forecasting.
+            </p>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-gold">•</span> PrimeFaces UI + Jakarta EE backend; MySQL via JPA/Hibernate.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> APIs: Amadeus, Open-Meteo, Google Maps for real-time travel + weather + location.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> Account creation, saved flight tracking, reviews, printable ticket generation.</li>
+            </ul>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="chip">Jakarta EE</span><span class="chip">PrimeFaces</span><span class="chip">MySQL</span><span class="chip">JPA/Hibernate</span><span class="chip">AWS EC2</span>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a class="btnGhost" href="https://github.com/naudt03" target="_blank" rel="noreferrer">Code ↗</a>
+            </div>
+          </article>
+
+          <!-- Systems -->
+          <article class="rounded-3xl bg-panel border border-line p-6 shadow-glow hover:bg-white/10 transition">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="text-xl font-semibold">Systems Work</h3>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/10 text-white/80 border border-line">C / Networking</span>
+            </div>
+            <p class="mt-3 text-white/70 leading-relaxed">
+              Lower-level projects focused on correctness, performance, and clean behavior under real constraints.
+            </p>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-ice">•</span> Custom Linux shell (cd, fg/bg, history, I/O redirection, piping, job control).</li>
+              <li class="flex gap-2"><span class="text-ice">•</span> Personal HTTP web server with IPv4/IPv6 support, MP4 streaming, JWT auth.</li>
+            </ul>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="chip">C</span><span class="chip">Unix</span><span class="chip">JWT</span><span class="chip">HTTP</span><span class="chip">Streaming</span>
+            </div>
+            <div class="mt-6 flex gap-3">
+              <a class="btnGhost" href="https://github.com/naudt03" target="_blank" rel="noreferrer">Code ↗</a>
+            </div>
+          </article>
         </div>
-                
-        <div class="project">
-          <img src="https://i0.wp.com/sneakerhistory.com/wp-content/uploads/2015/12/t-mac-tracy-mcgrady-13-points-33-seconds-2004.jpg?w=666&ssl=1" />
-          <h2>Tracy McGrady scoring 13 points in 35 seconds</h2>
-          <p class="description"> Here is the iconic <a href="https://www.youtube.com/watch?v=e3EqY5gPrcU">video</a> of Tracy McGrady scoring 13 points to clutch the win against the spurs.</p>
-      </main>
+      </section>
 
-      <footer>
-        <div>
-          <p class="copyright">© Naud Tafesse 2023</p>
-      </div>
-      </footer>
+      <!-- EXPERIENCE -->
+      <section id="experience" class="mt-16 pt-10 border-t border-line">
+        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Experience</h2>
+        <p class="mt-2 text-white/70">Impact-focused work across full-stack, research/education, and embedded systems.</p>
 
-    </div>
-  </body>
+        <div class="mt-8 space-y-6">
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div class="text-white font-semibold text-lg">Full-Stack Developer • Regal Abyssinia Restaurant</div>
+                <div class="text-white/60 text-sm">Falls Church, Virginia • May 2025 — Aug 2025</div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="chip">React</span><span class="chip">Spring Boot</span><span class="chip">AWS ECS</span><span class="chip">MongoDB</span>
+              </div>
+            </div>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-gold">•</span> Built a full-stack platform for menu browsing, secure online ordering, and reviews.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> Dockerized and deployed to AWS ECS Fargate; load balancers + SSL/TLS for HTTPS.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> Implemented JWT-based authentication for secure session management.</li>
+            </ul>
+          </div>
 
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div class="text-white font-semibold text-lg">Undergraduate Researcher • CodeKids VT</div>
+                <div class="text-white/60 text-sm">Blacksburg, Virginia • Jan 2025 — May 2025</div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+              </div>
+            </div>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-ice">•</span> Built interactive web content to teach AI, coding, and cybersecurity to K–8 students.</li>
+              <li class="flex gap-2"><span class="text-ice">•</span> Designed hands-on activities and digital books aligned to curriculum goals.</li>
+            </ul>
+          </div>
+
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div class="text-white font-semibold text-lg">Avionics Developer • MachWorks</div>
+                <div class="text-white/60 text-sm">Blacksburg, Virginia • May 2024 — Dec 2024</div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="chip">C</span><span class="chip">Embedded</span><span class="chip">Sensors</span>
+              </div>
+            </div>
+            <ul class="mt-4 space-y-2 text-white/75">
+              <li class="flex gap-2"><span class="text-gold">•</span> Implemented a real-time sensor integration system for sub-meter altitude monitoring.</li>
+              <li class="flex gap-2"><span class="text-gold">•</span> Delivered low-latency readings to improve flight stability during test flights.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="mt-16 pt-10 border-t border-line">
+        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Technical Skills</h2>
+
+        <div class="mt-8 grid md:grid-cols-2 gap-6">
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="text-white/60 text-sm">Languages</div>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="chip">Java</span><span class="chip">Python</span><span class="chip">C</span>
+              <span class="chip">JavaScript</span><span class="chip">HTML/CSS</span><span class="chip">Kotlin</span>
+            </div>
+          </div>
+
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="text-white/60 text-sm">Frameworks & Libraries</div>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="chip">React</span><span class="chip">Express.js</span><span class="chip">Node.js</span>
+              <span class="chip">Spring Boot</span><span class="chip">PrimeFaces</span><span class="chip">JPA/Hibernate</span>
+              <span class="chip">JUnit</span><span class="chip">Material UI</span>
+            </div>
+          </div>
+
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="text-white/60 text-sm">Cloud & Tools</div>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="chip">AWS ECS Fargate</span><span class="chip">EC2</span><span class="chip">RDS</span>
+              <span class="chip">Route 53</span><span class="chip">CloudFront</span><span class="chip">Docker</span>
+              <span class="chip">Gradle</span><span class="chip">Maven</span><span class="chip">Git/GitHub</span>
+              <span class="chip">JBoss</span><span class="chip">Jakarta EE</span>
+            </div>
+          </div>
+
+          <div class="rounded-3xl bg-panel border border-line p-6 shadow-glow">
+            <div class="text-white/60 text-sm">Databases & Other</div>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="chip">MongoDB</span><span class="chip">MySQL</span>
+              <span class="chip">REST API Design</span><span class="chip">Load Balancing</span><span class="chip">SSL/TLS</span>
+              <span class="chip">Data Visualization</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="mt-16 pt-10 border-t border-line pb-20">
+        <div class="rounded-3xl bg-panel border border-line p-8 shadow-glow">
+          <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Let’s talk</h2>
+          <p class="mt-2 text-white/70 max-w-2xl">
+            If you’re hiring or want to see a demo, email me — I respond fast.
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a class="btnGold" href="mailto:naudt21@vt.edu">naudt21@vt.edu</a>
+            <a class="btnGhost" href="https://github.com/naudt03" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <a class="btnGhost" href="#" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          </div>
+
+          <div class="mt-6 text-sm text-white/60">
+            Springfield, VA • Phone available on resume • <span id="toast" class="hidden text-gold ml-1">Copied!</span>
+          </div>
+        </div>
+
+        <footer class="mt-10 text-center text-white/45 text-sm">
+          © <span id="year"></span> Naud Tafesse • Built with HTML + Tailwind
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <!-- Utility styles (Tailwind “components” using classes) -->
+  <script>
+    // Tiny helper: inject utility classes for chips/buttons without repeating long class strings
+    const style = document.createElement("style");
+    style.textContent = `
+      .chip{
+        padding: 0.375rem 0.75rem;
+        border-radius: 9999px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.10);
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.80);
+      }
+      .btnGhost{
+        display: inline-flex; align-items:center; justify-content:center;
+        gap: .5rem; padding: .75rem 1.1rem;
+        border-radius: 1rem;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.10);
+        color: white; text-decoration: none;
+      }
+      .btnGhost:hover{ background: rgba(255,255,255,0.10); }
+      .btnGold{
+        display: inline-flex; align-items:center; justify-content:center;
+        gap: .5rem; padding: .75rem 1.1rem;
+        border-radius: 1rem;
+        background: #D4AF37;
+        color: #000; font-weight: 600;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 20px 60px rgba(0,0,0,0.55);
+        text-decoration: none;
+      }
+      .btnGold:hover{ opacity: .92; }
+    `;
+    document.head.appendChild(style);
+
+    // Mobile menu
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    menuBtn?.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+
+    // Copy email button
+    const email = "naudt21@vt.edu";
+    const copyBtn = document.getElementById("copyEmailBtn");
+    const toast = document.getElementById("toast");
+    copyBtn?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+        toast.classList.remove("hidden");
+        setTimeout(() => toast.classList.add("hidden"), 1200);
+      } catch (e) {
+        alert("Copy failed — email is: " + email);
+      }
+    });
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
