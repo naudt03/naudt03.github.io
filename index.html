@@ -69,6 +69,128 @@
 
       /* Optional: hide scroll when modal open */
       body.modal-open { overflow: hidden; }
+
+      .skill-globe-shell {
+        position: relative;
+        min-height: 460px;
+        border-radius: 46% / 38%;
+        overflow: hidden;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        isolation: isolate;
+      }
+
+      .skill-globe-shell::before,
+      .skill-globe-shell::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .skill-globe-shell::before {
+        background: none;
+      }
+
+      .skill-globe-shell::after {
+        background: none;
+      }
+
+      .skill-globe {
+        position: relative;
+        width: min(100%, 1040px);
+        height: clamp(350px, 46vw, 500px);
+        margin: 0 auto;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        z-index: 1;
+        perspective: 900px;
+        transform-style: preserve-3d;
+        -webkit-mask-image: radial-gradient(ellipse 53% 82% at 50% 50%, #000 54%, rgba(0,0,0,0.68) 72%, transparent 96%);
+        mask-image: radial-gradient(ellipse 53% 82% at 50% 50%, #000 54%, rgba(0,0,0,0.68) 72%, transparent 96%);
+      }
+
+      .skill-globe.is-dragging { cursor: grabbing; }
+
+      .skill-globe::before {
+        content: "";
+        position: absolute;
+        inset: 4% 8%;
+        border-radius: 48% / 42%;
+        border: 0;
+        background: transparent;
+        opacity: 0;
+      }
+
+      .skill-node {
+        appearance: none;
+        padding: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: grid;
+        place-items: center;
+        width: clamp(68px, 9.5vw, 104px);
+        height: clamp(68px, 9.5vw, 104px);
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.48);
+        background: rgba(255,255,255,0.88);
+        box-shadow: 0 16px 34px rgba(0,0,0,0.22);
+        transform: translate(-50%, -50%);
+        will-change: transform, opacity, filter;
+      }
+
+      .skill-node img {
+        width: 58%;
+        height: 58%;
+        object-fit: contain;
+        pointer-events: none;
+      }
+
+      .skill-node .skill-fallback {
+        display: none;
+        color: #070A12;
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        pointer-events: none;
+      }
+
+      .skill-node img.is-hidden {
+        display: none;
+      }
+
+      .skill-node img.is-hidden + .skill-fallback {
+        display: block;
+      }
+
+      .skill-node span {
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 0.38rem);
+        transform: translateX(-50%);
+        max-width: 92px;
+        color: rgba(255,255,255,0.84);
+        font-size: 0.68rem;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 640px) {
+        .skill-globe-shell {
+          min-height: 360px;
+          border-radius: 38% / 28%;
+        }
+        .skill-node span { display: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .skill-globe { cursor: default; }
+      }
     </style>
   </head>
 
@@ -481,42 +603,8 @@
         <section id="skills" class="mt-16 pt-10 border-t border-line">
           <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Technical Skills</h2>
 
-          <div class="mt-8 grid md:grid-cols-2 gap-6">
-            <div class="rounded-3xl bg-panel border border-line p-6 shadow-soft">
-              <div class="text-white/60 text-sm">Languages</div>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <span class="chip">Java</span><span class="chip">Python</span><span class="chip">C</span>
-                <span class="chip">JavaScript</span><span class="chip">HTML/CSS</span><span class="chip">Kotlin</span>
-              </div>
-            </div>
-
-            <div class="rounded-3xl bg-panel border border-line p-6 shadow-soft">
-              <div class="text-white/60 text-sm">Frameworks & Libraries</div>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <span class="chip">React</span><span class="chip">Express.js</span><span class="chip">Node.js</span>
-                <span class="chip">Spring Boot</span><span class="chip">PrimeFaces</span><span class="chip">JPA/Hibernate</span>
-                <span class="chip">JUnit</span><span class="chip">Material UI</span>
-              </div>
-            </div>
-
-            <div class="rounded-3xl bg-panel border border-line p-6 shadow-soft">
-              <div class="text-white/60 text-sm">Cloud & Tools</div>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <span class="chip">AWS ECS Fargate</span><span class="chip">EC2</span><span class="chip">RDS</span>
-                <span class="chip">Route 53</span><span class="chip">CloudFront</span><span class="chip">Docker</span>
-                <span class="chip">Gradle</span><span class="chip">Maven</span><span class="chip">Git/GitHub</span>
-                <span class="chip">JBoss</span><span class="chip">Jakarta EE</span>
-              </div>
-            </div>
-
-            <div class="rounded-3xl bg-panel border border-line p-6 shadow-soft">
-              <div class="text-white/60 text-sm">Databases & Other</div>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <span class="chip">MongoDB</span><span class="chip">MySQL</span>
-                <span class="chip">REST API Design</span><span class="chip">Load Balancing</span><span class="chip">SSL/TLS</span>
-                <span class="chip">Data Visualization</span>
-              </div>
-            </div>
+          <div class="skill-globe-shell mt-8 flex items-center justify-center">
+            <div id="skillGlobe" class="skill-globe" aria-label="Interactive technical skills globe"></div>
           </div>
         </section>
 
@@ -633,6 +721,205 @@
 
       // Year
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Draggable wrapping skill field
+      const skillGlobe = document.getElementById("skillGlobe");
+      const skillItems = [
+        ["Java", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"],
+        ["Python", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"],
+        ["C", "c"],
+        ["JavaScript", "javascript"],
+        ["HTML5", "html5"],
+        ["CSS3", "css"],
+        ["Kotlin", "kotlin"],
+        ["React", "react"],
+        ["Node.js", "nodedotjs"],
+        ["Express", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg"],
+        ["Spring Boot", "springboot"],
+        ["Flask", "flask"],
+        ["AWS", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"],
+        ["Docker", "docker"],
+        ["MongoDB", "mongodb"],
+        ["MySQL", "mysql"],
+        ["Git", "git"],
+        ["GitHub", "github"],
+        ["npm", "npm"],
+        ["Gradle", "gradle"],
+        ["Maven", "apachemaven"],
+        ["JUnit", "junit5"],
+        ["Hibernate", "hibernate"],
+        ["PrimeFaces", "primefaces"],
+        ["Material UI", "mui"],
+        ["Jakarta EE", "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 408 408'%3E%3Crect width='408' height='408' fill='none'/%3E%3Cpath fill='%23f7941d' d='M112 206 300 28c8 63-3 130-53 218z'/%3E%3Cpath fill='%23fbb040' d='M182 100 328 28c3 73-16 147-74 220z' opacity='.9'/%3E%3Cpath fill='%232e3192' d='M74 206c58 13 117 24 183 42-51-7-91 2-142 31-13-20-25-44-41-73z'/%3E%3Ctext x='50%25' y='364' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='64' fill='%23666'%3EJAKARTA EE%3C/text%3E%3C/svg%3E"],
+        ["JBoss", "redhat"],
+        ["JWT", "jsonwebtokens"],
+        ["NumPy", "numpy"],
+        ["Pandas", "pandas"],
+        ["scikit-learn", "scikitlearn"],
+        ["Raspberry Pi", "raspberrypi"],
+        ["Linux", "linux"],
+        ["Bash", "gnubash"],
+        ["REST APIs", "openapiinitiative"],
+        ["Data Viz", "chartdotjs"],
+        ["Postman", "postman"],
+        ["Nginx", "nginx"],
+        ["SSL/TLS", "letsencrypt"],
+        ["Unix", "linuxfoundation"]
+      ];
+
+      function initSkillGlobe() {
+        if (!skillGlobe) return;
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const columns = 10;
+        const rows = 4;
+        const fieldItems = Array.from({ length: columns * rows }, (_, index) => skillItems[index % skillItems.length]);
+        const nodes = fieldItems.map(([name, icon], index) => createSkillNode(name, icon, index));
+        let cellW = 112;
+        let cellH = 104;
+        let fieldW = columns * cellW;
+        let fieldH = rows * cellH;
+        let offsetX = 0;
+        let offsetY = 0;
+        let velocityX = reduceMotion ? 0 : -0.16;
+        let velocityY = reduceMotion ? 0 : 0.035;
+        let dragging = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function createSkillNode(name, icon, index) {
+          const node = document.createElement("button");
+          node.type = "button";
+          node.className = "skill-node";
+          node.title = name;
+          node.setAttribute("aria-label", name);
+          const initials = name
+            .replace(/[^a-z0-9 ]/gi, " ")
+            .trim()
+            .split(/\s+/)
+            .map(word => word[0])
+            .join("")
+            .slice(0, 3)
+            .toUpperCase();
+          const iconSrc = icon.startsWith("http") || icon.startsWith("data:")
+            ? icon
+            : `https://cdn.simpleicons.org/${icon}`;
+          node.innerHTML = `
+            <img alt="" src="${iconSrc}" loading="lazy" onerror="this.classList.add('is-hidden')">
+            <strong class="skill-fallback">${initials || name.slice(0, 2).toUpperCase()}</strong>
+            <span>${name}</span>
+          `;
+          skillGlobe.appendChild(node);
+
+          return {
+            element: node,
+            col: index % columns,
+            row: Math.floor(index / columns)
+          };
+        }
+
+        function wrap(value, size) {
+          return ((value % size) + size) % size;
+        }
+
+        function resizeGlobe() {
+          const rect = skillGlobe.getBoundingClientRect();
+          cellW = Math.max(94, Math.min(126, rect.width / 6.9));
+          cellH = Math.max(92, Math.min(122, rect.height / 3.2));
+          fieldW = columns * cellW;
+          fieldH = rows * cellH;
+        }
+
+        function render() {
+          if (!dragging) {
+            offsetX += velocityX;
+            offsetY += velocityY;
+            velocityX *= 0.96;
+            velocityY *= 0.96;
+            velocityX += reduceMotion ? 0 : -0.006;
+            velocityY += reduceMotion ? 0 : 0.0013;
+          }
+
+          const rect = skillGlobe.getBoundingClientRect();
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const ovalX = rect.width * 0.54;
+          const ovalY = rect.height * 1.2;
+
+          nodes.forEach(({ element, col, row }) => {
+            const staggerY = col % 2 === 1 ? cellH / 2 : 0;
+            const baseX = col * cellW + cellW / 2 + offsetX;
+            const baseY = row * cellH + cellH / 2 + staggerY + offsetY;
+            const x = wrap(baseX, fieldW) - fieldW / 2;
+            const y = wrap(baseY, fieldH) - fieldH / 2;
+            const nx = x / ovalX;
+            const ny = y / ovalY;
+            const distance = Math.sqrt((nx * nx) + (ny * ny));
+            const bulge = Math.max(0, 1 - distance * 0.68);
+            const edgeFade = Math.max(0, Math.min(1, 1.88 - distance));
+            const scale = 0.84 + bulge * 0.16;
+            const opacity = 0.08 + Math.pow(edgeFade, 1.25) * 0.92;
+            const curveX = x * (0.99 + bulge * 0.03);
+            const curveY = y * (0.96 + bulge * 0.04);
+            const rotateY = Math.max(-34, Math.min(34, nx * 28));
+            const rotateX = Math.max(-28, Math.min(28, -ny * 22));
+            const translateZ = bulge * 72 - distance * 22;
+            const brightness = Math.max(0.48, 1 - distance * 0.26);
+            const shadow = Math.max(0.08, bulge * 0.28);
+            const horizontalEdge = Math.max(0, Math.abs(curveX) / (rect.width * 0.5) - 0.58);
+            const verticalEdge = Math.max(0, Math.abs(curveY) / (rect.height * 0.5) - 0.5);
+            const radialEdge = Math.max(0, distance - 0.86);
+            const edgeBlur = Math.max(radialEdge * 6.4, horizontalEdge * 10, verticalEdge * 10);
+
+            element.style.transform = `translate(-50%, -50%) translate3d(${centerX + curveX}px, ${centerY + curveY}px, ${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+            element.style.opacity = opacity.toFixed(3);
+            element.style.filter = `blur(${edgeBlur}px) brightness(${brightness}) saturate(${Math.max(0.5, 1 - edgeBlur * 0.035)})`;
+            element.style.boxShadow = `0 16px 34px rgba(0,0,0,${shadow})`;
+            element.style.zIndex = String(Math.round(bulge * 100));
+          });
+
+          requestAnimationFrame(render);
+        }
+
+        skillGlobe.addEventListener("pointerdown", (event) => {
+          dragging = true;
+          lastX = event.clientX;
+          lastY = event.clientY;
+          velocityX = 0;
+          velocityY = 0;
+          skillGlobe.classList.add("is-dragging");
+          skillGlobe.setPointerCapture(event.pointerId);
+        });
+
+        skillGlobe.addEventListener("pointermove", (event) => {
+          if (!dragging) return;
+          const dx = event.clientX - lastX;
+          const dy = event.clientY - lastY;
+          lastX = event.clientX;
+          lastY = event.clientY;
+          offsetX += dx;
+          offsetY += dy;
+          velocityX = dx * 0.18;
+          velocityY = dy * 0.18;
+        });
+
+        skillGlobe.addEventListener("pointerup", (event) => {
+          dragging = false;
+          skillGlobe.classList.remove("is-dragging");
+          skillGlobe.releasePointerCapture(event.pointerId);
+        });
+
+        skillGlobe.addEventListener("pointercancel", () => {
+          dragging = false;
+          skillGlobe.classList.remove("is-dragging");
+        });
+
+        window.addEventListener("resize", resizeGlobe);
+        resizeGlobe();
+        render();
+      }
+
+      initSkillGlobe();
 
       // Demo modal logic
       const demoModal = document.getElementById("demoModal");
